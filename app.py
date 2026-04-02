@@ -489,11 +489,11 @@ elif st.session_state.phase == "left":
 # ═══════════════════════════════════════════════════════════════════════════════
 elif st.session_state.phase == "proposal":
     no_labels = [
-        "Maybe later…",
+        "Nah…",
         "Are you sure? 😶",
         "Really sure? 🥺",
         "Last chance! 😭",
-        "Okay fine, but… 💔",
+        "Understood… 💔",
     ]
     no_idx = min(st.session_state.no_count, len(no_labels) - 1)
     no_size = max(60, 160 - st.session_state.no_count * 22)
