@@ -11,10 +11,10 @@ st.set_page_config(
 
 # ─── Session State ────────────────────────────────────────────────────────────
 for key, default in {
-    "phase": "intro",        # intro → letter → proposal → responded | left
-    "choice": None,          # "yes" | "no"
-    "no_count": 0,           # tracks how many times they clicked No
-    "yes_timestamp": None,   # exact moment she said yes 💑
+    "phase": "intro",
+    "choice": None,
+    "no_count": 0,
+    "yes_timestamp": None,
 }.items():
     if key not in st.session_state:
         st.session_state[key] = default
@@ -31,11 +31,8 @@ st.markdown("""
 
 /* ── Root palette ───────────────────────────────────────── */
 :root {
-    --blush:    #f7d6d0;
     --rose:     #e8a0a0;
     --deep:     #c0686a;
-    --cream:    #fdf6f0;
-    --warm:     #8b5e5e;
     --text:     #4a2c2c;
     --muted:    #9a7070;
 }
@@ -48,11 +45,21 @@ st.markdown("""
     color: var(--text);
 }
 
-/* ── Center the content block ───────────────────────────── */
+/* ── Responsive layout container ───────────────────────── */
 [data-testid="stVerticalBlock"] {
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 0 0.5rem;
+}
+
+/* ── Main block padding fix on mobile ───────────────────── */
+.block-container {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+    padding-top: 1rem !important;
+    max-width: 620px !important;
+    width: 100% !important;
 }
 
 /* ── Hero card ──────────────────────────────────────────── */
@@ -61,16 +68,15 @@ st.markdown("""
     backdrop-filter: blur(18px);
     -webkit-backdrop-filter: blur(18px);
     border: 1px solid rgba(232, 160, 160, 0.35);
-    border-radius: 28px;
-    padding: 3rem 3.5rem;
+    border-radius: 24px;
+    padding: clamp(1.5rem, 5vw, 3rem) clamp(1.2rem, 6vw, 3.5rem);
     max-width: 560px;
     width: 100%;
     text-align: center;
-    box-shadow:
-        0 4px 32px rgba(192, 104, 106, 0.10),
-        0 1px 4px rgba(0,0,0,0.04);
-    margin: 2rem auto;
+    box-shadow: 0 4px 32px rgba(192, 104, 106, 0.10), 0 1px 4px rgba(0,0,0,0.04);
+    margin: clamp(1rem, 3vw, 2rem) auto;
     animation: fadeUp 0.9s cubic-bezier(.22,.68,0,1.2) both;
+    box-sizing: border-box;
 }
 
 @keyframes fadeUp {
@@ -78,26 +84,25 @@ st.markdown("""
     to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ── Letter card (scrollable) ───────────────────────────── */
+/* ── Letter card ────────────────────────────────────────── */
 .letter-card {
     background: rgba(255, 255, 255, 0.82);
     backdrop-filter: blur(18px);
     -webkit-backdrop-filter: blur(18px);
     border: 1px solid rgba(232, 160, 160, 0.35);
-    border-radius: 28px;
-    padding: 2.5rem 3rem;
+    border-radius: 24px;
+    padding: clamp(1.5rem, 5vw, 2.5rem) clamp(1.2rem, 6vw, 3rem);
     max-width: 560px;
     width: 100%;
     text-align: left;
-    box-shadow:
-        0 4px 32px rgba(192, 104, 106, 0.10),
-        0 1px 4px rgba(0,0,0,0.04);
-    margin: 2rem auto 0;
+    box-shadow: 0 4px 32px rgba(192, 104, 106, 0.10), 0 1px 4px rgba(0,0,0,0.04);
+    margin: clamp(1rem, 3vw, 2rem) auto 0;
     animation: fadeUp 0.9s cubic-bezier(.22,.68,0,1.2) both;
+    box-sizing: border-box;
 }
 
 .letter-scroll {
-    max-height: 420px;
+    max-height: clamp(280px, 50vh, 420px);
     overflow-y: auto;
     padding-right: 0.5rem;
     scrollbar-width: thin;
@@ -111,7 +116,7 @@ st.markdown("""
 
 .letter-eyebrow {
     font-family: 'Raleway', sans-serif;
-    font-size: 0.68rem;
+    font-size: clamp(0.6rem, 1.5vw, 0.68rem);
     font-weight: 500;
     letter-spacing: 0.25em;
     text-transform: uppercase;
@@ -122,7 +127,7 @@ st.markdown("""
 
 .letter-body {
     font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: 1.05rem;
+    font-size: clamp(0.95rem, 2.5vw, 1.05rem);
     font-weight: 400;
     line-height: 1.9;
     color: var(--text);
@@ -144,15 +149,15 @@ st.markdown("""
 
 /* ── Scene strip ────────────────────────────────────────── */
 .scene-strip {
-    font-size: 2.4rem;
-    letter-spacing: 1rem;
-    margin: 1.2rem 0 0.8rem;
+    font-size: clamp(1.8rem, 6vw, 2.4rem);
+    letter-spacing: clamp(0.5rem, 2vw, 1rem);
+    margin: 1rem 0 0.6rem;
     animation: walkIn 3.2s ease forwards;
 }
 @keyframes walkIn {
     0%   { letter-spacing: 4rem; opacity: 0; }
     60%  { opacity: 1; }
-    100% { letter-spacing: 1rem; }
+    100% { letter-spacing: clamp(0.5rem, 2vw, 1rem); }
 }
 
 /* ── Divider ────────────────────────────────────────────── */
@@ -160,22 +165,22 @@ st.markdown("""
     width: 48px;
     height: 1.5px;
     background: linear-gradient(to right, transparent, var(--rose), transparent);
-    margin: 1.4rem auto;
+    margin: 1.2rem auto;
 }
 
 /* ── Typography ─────────────────────────────────────────── */
 .eyebrow {
     font-family: 'Raleway', sans-serif;
-    font-size: 0.68rem;
+    font-size: clamp(0.6rem, 1.5vw, 0.68rem);
     font-weight: 500;
-    letter-spacing: 0.25em;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
     color: var(--deep);
-    margin-bottom: 0.6rem;
+    margin-bottom: 0.5rem;
 }
 .headline {
     font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: 2.4rem;
+    font-size: clamp(1.7rem, 5.5vw, 2.4rem);
     font-weight: 300;
     line-height: 1.25;
     color: var(--text);
@@ -186,7 +191,7 @@ st.markdown("""
     color: var(--deep);
 }
 .subline {
-    font-size: 0.92rem;
+    font-size: clamp(0.82rem, 2.2vw, 0.92rem);
     font-weight: 300;
     color: var(--muted);
     line-height: 1.75;
@@ -201,14 +206,17 @@ st.markdown("""
     background: transparent !important;
     color: var(--text) !important;
     font-family: 'Raleway', sans-serif !important;
-    font-size: 0.85rem !important;
+    font-size: clamp(0.78rem, 2vw, 0.85rem) !important;
     font-weight: 500 !important;
-    letter-spacing: 0.08em !important;
-    padding: 0.65rem 1.2rem !important;
+    letter-spacing: 0.06em !important;
+    padding: 0.6rem 1rem !important;
     cursor: pointer !important;
     transition: all 0.25s ease !important;
     width: 100% !important;
     min-width: unset !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
 }
 .stButton > button:hover {
     background: var(--deep) !important;
@@ -217,18 +225,22 @@ st.markdown("""
     transform: translateY(-2px) !important;
     box-shadow: 0 6px 20px rgba(192,104,106,0.3) !important;
 }
+.stButton > button:active {
+    transform: translateY(0px) !important;
+}
 
-/* ── Constrain ALL column rows to card width ────────────── */
+/* ── Column rows — responsive card width ────────────────── */
 [data-testid="stHorizontalBlock"] {
     max-width: 560px !important;
     width: 100% !important;
     margin: 0 auto !important;
+    gap: 0.6rem !important;
+    flex-wrap: nowrap !important;
 }
-
-/* ── Align columns to same baseline ─────────────────────── */
 [data-testid="stHorizontalBlock"] [data-testid="stColumn"] {
     display: flex !important;
     align-items: center !important;
+    min-width: 0 !important;
 }
 
 /* ── Response card ───────────────────────────────────────── */
@@ -236,8 +248,8 @@ st.markdown("""
     background: linear-gradient(135deg, #fff5f5 0%, #fff0fa 100%);
     border: 1px solid rgba(232,160,160,0.4);
     border-radius: 20px;
-    padding: 2rem 2.5rem;
-    margin-top: 1.8rem;
+    padding: clamp(1.2rem, 4vw, 2rem) clamp(1rem, 4vw, 2.5rem);
+    margin-top: 1.5rem;
     animation: popIn 0.5s cubic-bezier(.22,.68,0,1.2) both;
 }
 @keyframes popIn {
@@ -246,18 +258,18 @@ st.markdown("""
 }
 .response-title {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 1.7rem;
+    font-size: clamp(1.3rem, 4vw, 1.7rem);
     font-weight: 300;
     color: var(--deep);
     margin-bottom: 0.5rem;
 }
 .response-body {
-    font-size: 0.9rem;
+    font-size: clamp(0.82rem, 2.2vw, 0.9rem);
     color: var(--muted);
     line-height: 1.75;
 }
 
-/* ── Celebration background (fireworks) ─────────────────── */
+/* ── Celebration background ─────────────────────────────── */
 .celebration-bg {
     position: fixed;
     top: 0; left: 0;
@@ -266,32 +278,26 @@ st.markdown("""
     z-index: 0;
     overflow: hidden;
 }
-
 .firework {
     position: absolute;
-    width: 6px;
-    height: 6px;
+    width: 6px; height: 6px;
     border-radius: 50%;
     animation: fireworkBurst 1.8s ease-out infinite;
     opacity: 0;
 }
-
 @keyframes fireworkBurst {
     0%   { transform: scale(0) translateY(0); opacity: 1; }
     50%  { opacity: 0.9; }
     100% { transform: scale(1) translateY(-120px); opacity: 0; }
 }
-
 .confetti {
     position: absolute;
     top: -10px;
-    width: 8px;
-    height: 14px;
+    width: 8px; height: 14px;
     border-radius: 2px;
     animation: confettiFall linear infinite;
     opacity: 0.85;
 }
-
 @keyframes confettiFall {
     0%   { transform: translateY(-20px) rotate(0deg); opacity: 1; }
     100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
@@ -310,7 +316,6 @@ st.markdown("""
     position: absolute;
     bottom: -60px;
     opacity: 0;
-    font-size: 1.1rem;
     animation: floatHeart 7s ease-in infinite;
 }
 @keyframes floatHeart {
@@ -320,7 +325,7 @@ st.markdown("""
     100% { bottom: 105vh; opacity: 0; transform: translateX(40px) rotate(25deg); }
 }
 
-/* ── Intro page: muted style for "Not interested" button ─── */
+/* ── Muted "Not interested" button ──────────────────────── */
 .intro-muted-btn [data-testid="column"]:nth-child(2) .stButton > button {
     border-color: var(--muted) !important;
     color: var(--muted) !important;
@@ -333,11 +338,29 @@ st.markdown("""
     opacity: 1 !important;
 }
 
+/* ── Mobile-specific overrides ───────────────────────────── */
+@media (max-width: 480px) {
+    .block-container {
+        padding-left: 0.6rem !important;
+        padding-right: 0.6rem !important;
+    }
+    .hero-card, .letter-card {
+        border-radius: 18px;
+        margin: 0.8rem auto;
+    }
+    .scene-strip {
+        font-size: 1.8rem;
+        letter-spacing: 0.5rem;
+    }
+    [data-testid="stHorizontalBlock"] {
+        gap: 0.4rem !important;
+    }
+}
+
 /* ── Spinner override ────────────────────────────────────── */
 .stSpinner { display: none !important; }
 </style>
 
-<!-- Floating hearts background (non-celebration phases) -->
 <div class="hearts-bg" id="hearts-bg">
   <span class="heart" style="left:7%;  animation-delay:0s;    animation-duration:8s;  font-size:0.9rem;">♡</span>
   <span class="heart" style="left:18%; animation-delay:1.4s;  animation-duration:6.5s;font-size:0.7rem;">♡</span>
@@ -385,7 +408,7 @@ Ready ka bang harapin ang mga problems and pagsubok sa buhay with me?
 If yes, Yunna… 💌"""
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# PHASE: INTRO  — animated entrance with two choices
+# PHASE: INTRO
 # ═══════════════════════════════════════════════════════════════════════════════
 if st.session_state.phase == "intro":
 
@@ -412,7 +435,7 @@ if st.session_state.phase == "intro":
     st.markdown('</div>', unsafe_allow_html=True)
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# PHASE: LETTER  — the heartfelt message, scrollable
+# PHASE: LETTER
 # ═══════════════════════════════════════════════════════════════════════════════
 elif st.session_state.phase == "letter":
 
@@ -428,7 +451,7 @@ elif st.session_state.phase == "letter":
     </div>
     """, unsafe_allow_html=True)
 
-    st.markdown("<div style='height:1rem'></div>", unsafe_allow_html=True)
+    st.markdown("<div style='height:0.8rem'></div>", unsafe_allow_html=True)
 
     col_l, col_c, col_r = st.columns([1, 2, 1])
     with col_c:
@@ -437,14 +460,14 @@ elif st.session_state.phase == "letter":
             st.rerun()
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# PHASE: LEFT  — they walked away 😔
+# PHASE: LEFT
 # ═══════════════════════════════════════════════════════════════════════════════
 elif st.session_state.phase == "left":
 
     st.markdown("""
     <div class="hero-card">
         <p class="eyebrow">Oh…</p>
-        <div class="scene-strip" style="animation:none; letter-spacing:1rem;">👦 &nbsp;💔&nbsp; 🚶‍♀️</div>
+        <div class="scene-strip" style="animation:none;">👦 &nbsp;💔&nbsp; 🚶‍♀️</div>
         <div class="divider"></div>
         <h1 class="headline">That's okay.<br><em>Take your time.</em></h1>
         <p class="subline">
@@ -454,13 +477,15 @@ elif st.session_state.phase == "left":
     </div>
     """, unsafe_allow_html=True)
 
-    st.markdown("<br>", unsafe_allow_html=True)
-    if st.button("← Actually, wait…"):
-        st.session_state.phase = "intro"
-        st.rerun()
+    st.markdown("<div style='height:0.5rem'></div>", unsafe_allow_html=True)
+    col_l, col_c, col_r = st.columns([1, 2, 1])
+    with col_c:
+        if st.button("← Actually, wait…", use_container_width=True):
+            st.session_state.phase = "intro"
+            st.rerun()
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# PHASE: PROPOSAL — the actual question
+# PHASE: PROPOSAL
 # ═══════════════════════════════════════════════════════════════════════════════
 elif st.session_state.phase == "proposal":
     no_labels = [
@@ -476,7 +501,7 @@ elif st.session_state.phase == "proposal":
     st.markdown(f"""
     <style>
     [data-testid="column"]:nth-child(2) .stButton > button {{
-        font-size: {max(0.65, 0.85 - st.session_state.no_count * 0.06):.2f}rem !important;
+        font-size: {max(0.6, 0.85 - st.session_state.no_count * 0.06):.2f}rem !important;
         opacity: {max(0.35, 1.0 - st.session_state.no_count * 0.15):.2f} !important;
         border-color: var(--muted) !important;
         max-width: {no_size}px !important;
@@ -513,17 +538,15 @@ elif st.session_state.phase == "proposal":
             st.rerun()
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# PHASE: RESPONDED — reaction screen
+# PHASE: RESPONDED
 # ═══════════════════════════════════════════════════════════════════════════════
 elif st.session_state.phase == "responded":
 
     if st.session_state.choice == "yes":
         timestamp = st.session_state.get("yes_timestamp", "")
 
-        # ── Fireworks + confetti celebration background ──
         st.markdown("""
         <style>
-        /* Override app bg to deep celebration gradient */
         .stApp {
             background: radial-gradient(ellipse at 30% 20%, #ffe0ec 0%, #fdf0f8 35%, #fff0e6 70%, #fde8ff 100%) !important;
         }
@@ -531,7 +554,6 @@ elif st.session_state.phase == "responded":
         </style>
 
         <div class="celebration-bg">
-          <!-- Confetti pieces -->
           <div class="confetti" style="left:5%;  background:#f7a8c4; animation-duration:3.2s; animation-delay:0s;   width:7px; height:12px;"></div>
           <div class="confetti" style="left:12%; background:#ffd6a5; animation-duration:2.8s; animation-delay:0.3s; width:9px; height:9px; border-radius:50%;"></div>
           <div class="confetti" style="left:20%; background:#c9b8f5; animation-duration:3.6s; animation-delay:0.1s;"></div>
@@ -545,33 +567,30 @@ elif st.session_state.phase == "responded":
           <div class="confetti" style="left:80%; background:#f7a8c4; animation-duration:3.3s; animation-delay:0.8s;"></div>
           <div class="confetti" style="left:88%; background:#c9b8f5; animation-duration:2.4s; animation-delay:0.2s; border-radius:50%;"></div>
           <div class="confetti" style="left:94%; background:#ffd6a5; animation-duration:3.5s; animation-delay:0.6s; width:6px; height:18px;"></div>
-          <!-- Extra wave -->
           <div class="confetti" style="left:8%;  background:#c9b8f5; animation-duration:4.0s; animation-delay:1.2s; width:8px;"></div>
           <div class="confetti" style="left:25%; background:#f7a8c4; animation-duration:3.8s; animation-delay:1.5s; border-radius:50%;"></div>
           <div class="confetti" style="left:45%; background:#a8d8f0; animation-duration:4.2s; animation-delay:1.0s; width:11px; height:11px;"></div>
           <div class="confetti" style="left:70%; background:#ffd6a5; animation-duration:3.9s; animation-delay:1.3s; width:7px; height:13px;"></div>
           <div class="confetti" style="left:90%; background:#f7a8c4; animation-duration:4.1s; animation-delay:1.1s;"></div>
-
-          <!-- Firework bursts -->
-          <div class="firework" style="left:20%; top:25%; background:#f7a8c4; animation-duration:1.6s; animation-delay:0s; box-shadow: 0 0 6px 3px #f7a8c4;"></div>
-          <div class="firework" style="left:50%; top:15%; background:#ffd6a5; animation-duration:1.9s; animation-delay:0.4s; box-shadow: 0 0 6px 3px #ffd6a5;"></div>
-          <div class="firework" style="left:78%; top:30%; background:#c9b8f5; animation-duration:1.7s; animation-delay:0.8s; box-shadow: 0 0 6px 3px #c9b8f5;"></div>
-          <div class="firework" style="left:35%; top:60%; background:#a8d8f0; animation-duration:2.0s; animation-delay:0.2s; box-shadow: 0 0 6px 3px #a8d8f0;"></div>
-          <div class="firework" style="left:65%; top:55%; background:#f7a8c4; animation-duration:1.5s; animation-delay:1.0s; box-shadow: 0 0 6px 3px #f7a8c4;"></div>
-          <div class="firework" style="left:10%; top:70%; background:#ffd6a5; animation-duration:1.8s; animation-delay:0.6s; box-shadow: 0 0 6px 3px #ffd6a5;"></div>
-          <div class="firework" style="left:88%; top:20%; background:#c9b8f5; animation-duration:2.1s; animation-delay:0.3s; box-shadow: 0 0 6px 3px #c9b8f5;"></div>
+          <div class="firework" style="left:20%; top:25%; background:#f7a8c4; animation-duration:1.6s; animation-delay:0s;   box-shadow:0 0 6px 3px #f7a8c4;"></div>
+          <div class="firework" style="left:50%; top:15%; background:#ffd6a5; animation-duration:1.9s; animation-delay:0.4s; box-shadow:0 0 6px 3px #ffd6a5;"></div>
+          <div class="firework" style="left:78%; top:30%; background:#c9b8f5; animation-duration:1.7s; animation-delay:0.8s; box-shadow:0 0 6px 3px #c9b8f5;"></div>
+          <div class="firework" style="left:35%; top:60%; background:#a8d8f0; animation-duration:2.0s; animation-delay:0.2s; box-shadow:0 0 6px 3px #a8d8f0;"></div>
+          <div class="firework" style="left:65%; top:55%; background:#f7a8c4; animation-duration:1.5s; animation-delay:1.0s; box-shadow:0 0 6px 3px #f7a8c4;"></div>
+          <div class="firework" style="left:10%; top:70%; background:#ffd6a5; animation-duration:1.8s; animation-delay:0.6s; box-shadow:0 0 6px 3px #ffd6a5;"></div>
+          <div class="firework" style="left:88%; top:20%; background:#c9b8f5; animation-duration:2.1s; animation-delay:0.3s; box-shadow:0 0 6px 3px #c9b8f5;"></div>
         </div>
         """, unsafe_allow_html=True)
 
         st.markdown(f"""
-        <div class="hero-card" style="border-color: rgba(247,168,196,0.5); box-shadow: 0 8px 48px rgba(247,168,196,0.25), 0 2px 8px rgba(0,0,0,0.04);">
+        <div class="hero-card" style="border-color:rgba(247,168,196,0.5); box-shadow:0 8px 48px rgba(247,168,196,0.25), 0 2px 8px rgba(0,0,0,0.04);">
             <p class="eyebrow">She said yes 🎉</p>
             <div class="scene-strip">👦🌸👧</div>
             <div class="divider"></div>
             <h1 class="headline">You just made me<br>the <em>happiest person</em>.</h1>
             <div class="response-card">
                 <p class="response-title">💑 Our story begins now.</p>
-                <p class="response-body" style="font-size:0.78rem; letter-spacing:0.06em; color: var(--deep); font-weight:500; margin-bottom:1rem;">
+                <p class="response-body" style="font-size:clamp(0.7rem,1.8vw,0.78rem); letter-spacing:0.06em; color:var(--deep); font-weight:500; margin-bottom:1rem;">
                     🗓️ &nbsp;{timestamp}
                 </p>
                 <p class="response-body">
@@ -583,7 +602,7 @@ elif st.session_state.phase == "responded":
         </div>
         """, unsafe_allow_html=True)
 
-    else:  # "no" — forced happy ending
+    else:
         st.markdown("""
         <div class="hero-card">
             <p class="eyebrow">Plot twist 😈</p>
@@ -600,8 +619,10 @@ elif st.session_state.phase == "responded":
         </div>
         """, unsafe_allow_html=True)
 
-    st.markdown("<br>", unsafe_allow_html=True)
-    if st.button("↩ Start over"):
-        for k in ["phase", "choice", "no_count", "yes_timestamp"]:
-            del st.session_state[k]
-        st.rerun()
+    st.markdown("<div style='height:0.5rem'></div>", unsafe_allow_html=True)
+    col_l, col_c, col_r = st.columns([1, 2, 1])
+    with col_c:
+        if st.button("↩ Start over", use_container_width=True):
+            for k in ["phase", "choice", "no_count", "yes_timestamp"]:
+                del st.session_state[k]
+            st.rerun()
