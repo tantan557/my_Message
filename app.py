@@ -1,5 +1,5 @@
 import streamlit as st
-from datetime import datetime
+from datetime import datetime, timedelta
 
 # ─── Page Config ──────────────────────────────────────────────────────────────
 st.set_page_config(
@@ -464,7 +464,7 @@ elif st.session_state.phase == "left":
 # ═══════════════════════════════════════════════════════════════════════════════
 elif st.session_state.phase == "proposal":
     no_labels = [
-        "Nah…",
+        "Maybe later…",
         "Are you sure? 😶",
         "Really sure? 🥺",
         "Last chance! 😭",
@@ -505,7 +505,7 @@ elif st.session_state.phase == "proposal":
         if st.button("💖  Yes, of course!", use_container_width=True):
             st.session_state.choice = "yes"
             st.session_state.phase = "responded"
-            st.session_state.yes_timestamp = datetime.now().strftime("%B %d, %Y · %I:%M %p")
+            st.session_state.yes_timestamp = (datetime.now() + timedelta(hours=8)).strftime("%B %d, %Y · %I:%M %p")
             st.rerun()
     with col2:
         if st.button(no_labels[no_idx], use_container_width=True):
